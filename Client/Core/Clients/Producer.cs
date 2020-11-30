@@ -1,9 +1,7 @@
 ﻿using Communication.Common;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Client.Core.Clients
 {

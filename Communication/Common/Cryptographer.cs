@@ -100,7 +100,6 @@ namespace Communication.Common
             }
             catch (CryptographicException e)
             {
-                Console.WriteLine(e.ToString());
                 return null;
             }
         }

@@ -1,9 +1,7 @@
 ﻿using Communication.Common;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 
 namespace Server.Core.Servers
@@ -94,10 +92,5 @@ namespace Server.Core.Servers
                 basicProperties: null,
                 body: body);
         }
-
-/*        private void Cw(string message, byte[] array)
-        {
-            Console.WriteLine("Consumer: " + message + " " + Encoding.UTF8.GetString(array));
-        }*/
     }
 }

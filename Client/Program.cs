@@ -17,7 +17,7 @@ namespace Client
         {
             var todoService = new TodoServiceProvider(DBPath);
 
-            //Socket(todoService);
+            Socket(todoService);
             RabbitMQ(todoService);
 
             Console.WriteLine("Для завершения нажмите любую кнопку");

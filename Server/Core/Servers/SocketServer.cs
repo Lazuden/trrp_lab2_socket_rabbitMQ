@@ -88,7 +88,6 @@ namespace Server.Core.Servers
                     }
                 }
                 var data = Cryptographer.SymmetricDecrypt(array, des);
-                //var data = Encoding.UTF8.GetString(array);
                 handler.Handle(data);
             }
             catch (Exception ex)

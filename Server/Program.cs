@@ -44,7 +44,7 @@ namespace Server
 
         public void Run()
         {
-            //var ipAddress = new IPAddress(new byte[] { 192, 168, 1, 43 });
+            //var ip = new IPAddress(new byte[] { 192, 168, 1, 37 });
             var ip = Dns.GetHostEntry("localhost").AddressList[0];
             var port = 11000;
 
