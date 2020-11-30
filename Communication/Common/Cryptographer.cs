@@ -47,7 +47,7 @@ namespace Communication.Common
             }
         }
 
-        //////////////////////
+
         public static byte[] GetBytesOfPublicRSA(RSAParameters rSAParameters)
         {
             var parameters = new RsaPublicKeyParameters(rSAParameters);
@@ -55,7 +55,7 @@ namespace Communication.Common
             return Encoding.UTF8.GetBytes(str);
         }
 
-        //////////////////////
+
         public static RSAParameters GetRSAFromBytes(byte[] bytes)
         {
             var publicKeyJson = Encoding.UTF8.GetString(bytes);

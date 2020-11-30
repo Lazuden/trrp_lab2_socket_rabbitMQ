@@ -13,7 +13,7 @@ namespace Client.Core.Clients
         private const string FromServer = "from_server";
         private const string ToServer = "to_server";
         private DESCryptoServiceProvider _des;
-
+        private bool _isDesSended = false;
         public Producer(string ip)
         {
             _factory = new ConnectionFactory() { HostName = ip, UserName = "Jojo", Password = "Jojo" };
@@ -30,25 +30,27 @@ namespace Client.Core.Clients
             2) зашифровать данные и положить их в очередь ToServer */
 
             // 1 задача
-            //var consumer = new EventingBasicConsumer(channel);
-            //consumer.Received += (model, ea) =>
-            //{
-            //    var rsa = ea.Body.ToArray();
-            //    Cw("полученный паблик РСА", rsa);
-            //    var publicRSA = Cryptographer.GetRSAFromBytes(rsa);
-            //    var encryptedDES = Cryptographer.EncryptDesByRSA(publicRSA, _des);
-            //    Send(channel, encryptedDES);
-            //};
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, ea) =>
+            {
+                var rsa = ea.Body.ToArray();
+                var publicRSA = Cryptographer.GetRSAFromBytes(rsa);
+                var encryptedDES = Cryptographer.EncryptDesByRSA(publicRSA, _des);
+                Send(channel, encryptedDES);
+                _isDesSended = true;
+            };
 
-            //channel.BasicConsume(
-            //    queue: FromServer,
-            //    autoAck: true,
-            //    consumer: consumer);
+            channel.BasicConsume(
+                queue: FromServer,
+                autoAck: true,
+                consumer: consumer);
+
 
             // 2 задача
-            var body = Encoding.UTF8.GetBytes(message);
-            //var body = Cryptographer.SymmetricEncrypt(message, _des);
+            while (!_isDesSended) ;
+            var body = Cryptographer.SymmetricEncrypt(message, _des);
             Send(channel, body);
+
         }
 
         private void DeclareQueues(IModel channel, params string[] queues)

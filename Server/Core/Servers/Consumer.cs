@@ -33,9 +33,9 @@ namespace Server.Core.Servers
             2) подписаться на ToServer, и, когда придет des, расшифровать его с помощью privateRSA. Принимать другие сообщения */
 
             // 1 задача
-            //var publicRsaBytes = Cryptographer.GetBytesOfPublicRSA(_rsa.ExportParameters(false));
+            var publicRsaBytes = Cryptographer.GetBytesOfPublicRSA(_rsa.ExportParameters(false));
             //Cw("отправляем паблик РСА", publicRsaBytes);
-            //Send(channel, publicRsaBytes);
+            Send(channel, publicRsaBytes);
 
             // 2 задача
             var consumer = new EventingBasicConsumer(channel);
@@ -43,29 +43,13 @@ namespace Server.Core.Servers
             {
                 var body = ea.Body.ToArray();
 
-                /*if (_des is null)
+                if (_des is null)
                 {
                     _des = Cryptographer.GetDesFromBytes(body, _rsa.ExportParameters(true));
-                    if (_des is null)
-                    {
-                        Console.WriteLine("ЧТО ЗА БРЕД");
-                    }
-                    else
-                    {
-                        Console.WriteLine("БРЕД");
-                    }
                 }
-                else*/
+                else
                 {
-                    /*Console.WriteLine("Данные");
-                    if (_des is null)
-                    {
-                        Console.WriteLine("des is null");
-                        return;
-                    }*/
-                    //var message = Cryptographer.SymmetricDecrypt(body, _des);
-                    var message = Encoding.UTF8.GetString(body);
-                    //Cw("Сообщение", Encoding.UTF8.GetBytes(message));
+                    var message = Cryptographer.SymmetricDecrypt(body, _des);
                     handler.Handle(message);
                 }
             };
