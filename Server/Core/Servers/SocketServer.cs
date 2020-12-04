@@ -122,7 +122,9 @@ namespace Server.Core.Servers
 
             var desIV = Cryptographer.RSADecrypt(encrypdedDesParams.IV, privateKey);
             var desKey = Cryptographer.RSADecrypt(encrypdedDesParams.Key, privateKey);
+
             DESCryptoServiceProvider des = Cryptographer.GetDES(desIV, desKey);
+
 
             return des;
         }
