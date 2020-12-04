@@ -48,7 +48,6 @@ namespace Client.Core.Clients
             while (!_isDesSended) ;
             var body = Cryptographer.SymmetricEncrypt(message, _des);
             Send(channel, body);
-
         }
 
         private void DeclareQueues(IModel channel, params string[] queues)

@@ -22,15 +22,15 @@ namespace Client.Core.Clients
         {
             try
             {
-                if (data.Length != 0)
+                if (!string.IsNullOrEmpty(data))
                 {
                     Socket socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                     socket.Connect(_remoteEP);
 
                     var des = GetDes(socket);
 
-                    socket.Send(Cryptographer.SymmetricEncrypt(data, des));
-                    //socket.Send(Encoding.UTF8.GetBytes(data));
+                    var encryptedData = Cryptographer.SymmetricEncrypt(data, des);
+                    socket.Send(encryptedData);
 
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
@@ -64,16 +64,12 @@ namespace Client.Core.Clients
             var publicKey = JsonConvert.DeserializeObject<RsaPublicKeyParameters>(publicKeyJson);
             var publicKeyParameters = publicKey.GetRSAParameters();
 
-
-
-            DESCryptoServiceProvider des = Cryptographer.GetDES();
+            var des = Cryptographer.GetDES();
             var iv = Cryptographer.RSAEncrypt(des.IV, publicKeyParameters);
             var key = Cryptographer.RSAEncrypt(des.Key, publicKeyParameters);
 
-
             var encrypdedDes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new DesParameters(iv, key)));
             socket.Send(encrypdedDes);
-
 
             return des;
         }
