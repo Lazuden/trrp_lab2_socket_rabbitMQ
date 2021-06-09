@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -11,7 +10,7 @@ namespace Communication.Common
     {
         public static DESCryptoServiceProvider GetDES()
         {
-            return new DESCryptoServiceProvider();
+            return new System.Security.Cryptography.DESCryptoServiceProvider();
         }
 
         public static DESCryptoServiceProvider GetDES(byte[] IV, byte[] Key)
@@ -123,7 +122,7 @@ namespace Communication.Common
             MemoryStream ms = new MemoryStream(encryptText);
             CryptoStream crypstream = new CryptoStream(ms, key.CreateDecryptor(), CryptoStreamMode.Read);
             StreamReader sr = new StreamReader(crypstream);
-            string val = sr.ReadLine();
+            string val = sr.ReadToEnd();
             sr.Close();
             crypstream.Close();
             ms.Close();

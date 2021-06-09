@@ -17,7 +17,7 @@ namespace Client
             }.ConnectionString;
         }
 
-        public IEnumerable GetAll(int sliceSize)
+        public IEnumerable<List<TodoService>> GetAll(int sliceSize)
         {
             using var conn = new SQLiteConnection(_connectionString);
             var sCommand = new SQLiteCommand()
